@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     max_iterations = std::shared_ptr<int>(new int(1));
     FP_in = std::shared_ptr<std::vector<long double>>(new std::vector<long double>());
     FP_in_finished = std::shared_ptr<bool>(new bool(false));
-    //Int_in = std::shared_ptr<std::vector<interval_arithmetic::Interval<long double>>>(new std::vector<interval_arithmetic::Interval<long double>>);
+    Int_in = std::shared_ptr<std::vector<interval_arithmetic::Interval<long double>>>(new std::vector<interval_arithmetic::Interval<long double>>);
     Int_in_finished = std::shared_ptr<bool>(new bool(false));
 }
 
@@ -36,6 +36,26 @@ void MainWindow::fpSelected(){
     ui->input_FP_radioButton->setChecked(true);
 }
 void MainWindow::insertPressed(){
+    if(*FP_in_finished){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Inserted data", "Floating point data has already been entered! Do you wish to delete it?",QMessageBox::Yes|QMessageBox::No);
+        if(reply==QMessageBox::Yes){
+            (*FP_in).clear();
+            (*FP_in_finished) = false;
+        }else{
+            return;
+        }
+    }
+    if(*Int_in_finished){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Inserted data", "Interval data has already been entered! Do you wish to delete it?",QMessageBox::Yes|QMessageBox::No);
+        if(reply==QMessageBox::Yes){
+            (*Int_in).clear();
+            (*Int_in_finished) = false;
+        }else{
+            return;
+        }
+    }
     QButtonGroup group;
     QList<QRadioButton *> allButtons = ui->input_groupBox->findChildren<QRadioButton *>();
     for(int i = 0; i < allButtons.size(); ++i)
@@ -54,7 +74,7 @@ void MainWindow::insertPressed(){
         QMessageBox err_dialog(QMessageBox::Critical,"Input selection Error", "No input method selected!");
         err_dialog.exec();
     }
-    qDebug() << "Insert Pressed\n";
+
 }
 void MainWindow::enableWindow(){
     this->setDisabled(false);
@@ -75,10 +95,17 @@ void MainWindow::solvePressed(){
     }
     qDebug() << arithmetic_group.checkedId() << " " <<input_group.checkedId()<<" "<<(*FP_in_finished);
     if(arithmetic_group.checkedId()==0 && input_group.checkedId()==0 && (*FP_in_finished)){
-
         std::vector<long double> result = floatingBairstow((*this->FP_in).size()-1,*this->FP_in,*max_iterations,mincorr,zerodet);
-
         fpoutput * fpoutput_window = new fpoutput(this,result);
         fpoutput_window->exec();
+        FP_in->clear();
+        *FP_in_finished = false;
+    }else if(arithmetic_group.checkedId()==1 && input_group.checkedId()==0 && (*FP_in_finished)){
+
+    }else if(arithmetic_group.checkedId()==1 && input_group.checkedId()==1 && (*Int_in_finished)){
+
+    }else{
+        QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "No data for selected arithmetic and input method!");
+        err_dialog.exec();
     }
 }

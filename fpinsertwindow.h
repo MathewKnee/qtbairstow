@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QString>
 #include <string_utils.h>
+#include <QCloseEvent>
 namespace Ui {
 class FPInsertWindow;
 }
@@ -15,6 +16,8 @@ class FPInsertWindow : public QDialog
 {
     Q_OBJECT
 
+protected:
+    void closeEvent(QCloseEvent *event);
 public:
     explicit FPInsertWindow(QWidget *parent = nullptr,std::shared_ptr<std::vector<long double>> FP_in = nullptr,std::shared_ptr<bool> FP_in_finished = nullptr,std::shared_ptr<int> max_it=nullptr);
     ~FPInsertWindow();
@@ -25,6 +28,7 @@ private:
     Ui::FPInsertWindow *ui;
     bool it_confirmed;
     bool deg_confirmed;
+    bool data_inserted;
     std::vector<bool> entered;
     std::vector<std::string> entered_values_str;
     int min_coeff = 0;

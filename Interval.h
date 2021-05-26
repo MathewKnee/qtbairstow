@@ -25,6 +25,7 @@
 #include <typeinfo>
 #include <mpfr.h>
 #include <mpreal.h>
+#include <utility>
 
 using namespace std;
 using namespace mpfr;
@@ -194,12 +195,12 @@ int SetRounding(int rounding) {
 	return rounding;
 }
 
-template<typename T>
-inline Interval<T>& Interval<T>::operator =(Interval<T> i) {
-	std::swap(this->a, i.a);
-	std::swap(this->b, i.b);
-	return *this;
-}
+//template<typename T>
+//inline Interval<T>& Interval<T>::operator =(Interval<T> i) {
+//	std::swap(this->a, i.a);
+//	std::swap(this->b, i.b);
+//	return *this;
+//}
 
 template<typename T>
 inline void Interval<T>::SetPrecision(IAPrecision p) {

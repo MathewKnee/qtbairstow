@@ -8,6 +8,7 @@ FPInsertWindow::FPInsertWindow(QWidget *parent,std::shared_ptr<std::vector<long 
     this->FP_in=FP_in;
     this->FP_in_finished = FP_in_finished;
     this->max_it = max_it;
+    this->data_inserted = false;
     (*this->max_it) = 0;
     ui->setupUi(this);
     connect(ui->it_confirm, SIGNAL(released()), this, SLOT(it_confirm_pressed()));
@@ -150,6 +151,7 @@ void FPInsertWindow::insert_data_pressed(){
             }
             if(check){
                 (*FP_in_finished) = true;
+                data_inserted=true;
                 close();
             }else{
                 QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "Coefficent missing!");
@@ -159,5 +161,21 @@ void FPInsertWindow::insert_data_pressed(){
     }
 }
 void FPInsertWindow::cancel_pressed(){
-    //TODO
+    close();
+}
+void FPInsertWindow::closeEvent(QCloseEvent *event){
+    if(data_inserted){
+        event->accept();
+    }else{
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Close", "Do you wish to discard all the data?",QMessageBox::Yes|QMessageBox::No);
+        if(reply==QMessageBox::Yes){
+            (*FP_in).clear();
+            (*FP_in_finished) = false;
+            event->accept();
+        }else{
+            event->ignore();
+        }
+    }
+
 }
