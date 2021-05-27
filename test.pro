@@ -13,6 +13,7 @@ SOURCES += \
     fpinsertwindow.cpp \
     fpoutput.cpp \
     intervalinsertwindow.cpp \
+    intervaloutput.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -22,6 +23,7 @@ HEADERS += \
     fpinsertwindow.h \
     fpoutput.h \
     intervalinsertwindow.h \
+    intervaloutput.h \
     mainwindow.h \
     string_utils.h
 
@@ -29,6 +31,7 @@ FORMS += \
     fpinsertwindow.ui \
     fpoutput.ui \
     intervalinsertwindow.ui \
+    intervaloutput.ui \
     mainwindow.ui
 
 LIBS += \

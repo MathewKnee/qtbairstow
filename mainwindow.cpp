@@ -101,9 +101,21 @@ void MainWindow::solvePressed(){
         FP_in->clear();
         *FP_in_finished = false;
     }else if(arithmetic_group.checkedId()==1 && input_group.checkedId()==0 && (*FP_in_finished)){
-
+        std::vector<interval_arithmetic::Interval<long double>> FP_to_Int_in = std::vector<interval_arithmetic::Interval<long double>>();
+        for(int i = 0; i<(int)(*this->FP_in).size();i++){
+            FP_to_Int_in.push_back(interval_arithmetic::Interval<long double>((*this->FP_in)[i],(*this->FP_in)[i]));
+        }
+        std::vector<interval_arithmetic::Interval<long double>> result = intervalBairstow(FP_to_Int_in.size()-1,FP_to_Int_in,*max_iterations,mincorr,zerodet);
+        IntervalOutput * intervaloutput_window = new IntervalOutput(this,result);
+        intervaloutput_window->exec();
+        FP_in->clear();
+        *FP_in_finished = false;
     }else if(arithmetic_group.checkedId()==1 && input_group.checkedId()==1 && (*Int_in_finished)){
-
+        std::vector<interval_arithmetic::Interval<long double>> result = intervalBairstow((*this->Int_in).size()-1,*this->Int_in,*max_iterations,mincorr,zerodet);
+        IntervalOutput * intervaloutput_window = new IntervalOutput(this,result);
+        intervaloutput_window->exec();
+        FP_in->clear();
+        *FP_in_finished = false;
     }else{
         QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "No data for selected arithmetic and input method!");
         err_dialog.exec();

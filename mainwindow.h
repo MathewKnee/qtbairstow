@@ -10,6 +10,7 @@
 #include "intervalinsertwindow.h"
 #include "fpinsertwindow.h"
 #include "fpoutput.h"
+#include <intervaloutput.h>
 #include <Interval.h>
 #include "bairstowMethod.h"
 QT_BEGIN_NAMESPACE
