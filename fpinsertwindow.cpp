@@ -58,7 +58,19 @@ void FPInsertWindow::next_pressed(){
         bool correct_input = false;
         try{
             coef = std::stold(line,nullptr);
-            correct_input = true;
+            if(next_button_mode==1){
+                if(abs(coef)<=1e-16){
+                    correct_input=false;
+                    QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "a[n] can not be equal to 0!");
+                    entered[current_coeff]=false;
+                    err_dialog.exec();
+                }else{
+                    correct_input=true;
+                }
+            }else{
+               correct_input = true;
+            }
+
         }catch(std::exception &e){
             QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "Invalid input!");
             entered[current_coeff]=false;

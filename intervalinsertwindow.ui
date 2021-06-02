@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>603</width>
-    <height>177</height>
+    <height>180</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,10 +54,10 @@
        <item row="3" column="1">
         <layout class="QHBoxLayout" name="coefBox">
          <item>
-          <widget class="QLineEdit" name="coef_lineEditR"/>
+          <widget class="QLineEdit" name="coef_lineEditL"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="coef_lineEditL"/>
+          <widget class="QLineEdit" name="coef_lineEditR"/>
          </item>
         </layout>
        </item>

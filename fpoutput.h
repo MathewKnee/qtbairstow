@@ -9,6 +9,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QMessageBox>
 namespace Ui {
 class fpoutput;
 }
@@ -18,9 +19,9 @@ class fpoutput : public QDialog
     Q_OBJECT
 
 public:
-    explicit fpoutput(QWidget *parent = nullptr,std::vector<long double> FP_out = std::vector<long double>());
+    explicit fpoutput(QWidget *parent = nullptr,std::vector<std::vector<long double>> FP_out = std::vector<std::vector<long double>>());
     ~fpoutput();
-    std::vector<long double> FP_out;
+    std::vector<std::vector<long double>> FP_out;
 
 private:
     Ui::fpoutput *ui;

@@ -69,6 +69,15 @@ void IntervalInsertWindow::next_pressed(){
                 QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "Invalid input! Left boundary larger than right boundary");
                 entered[current_coeff]=false;
                 err_dialog.exec();
+            }else if (next_button_mode==1){
+                if((abs(coefL)<=1e-16 && abs(coefR)<=1e-16) || (coefL <= 1e-16 && coefR >=1e-16)){
+                    correct_input=false;
+                    QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "a[n] can not contain 0!");
+                    entered[current_coeff]=false;
+                    err_dialog.exec();
+                }else{
+                    correct_input=true;
+                }
             }else{
                 correct_input = true;
             }

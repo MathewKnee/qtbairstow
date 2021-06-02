@@ -63,7 +63,7 @@ void MainWindow::insertPressed(){
         group.addButton(allButtons[i],i);
     }
     if(group.checkedId()==1){
-        IntervalInsertWindow * interval_window = new IntervalInsertWindow(this);
+        IntervalInsertWindow * interval_window = new IntervalInsertWindow(this,this->Int_in,this->Int_in_finished,this->max_iterations);
         interval_window->exec();
 
     }else if(group.checkedId()==0){
@@ -95,7 +95,8 @@ void MainWindow::solvePressed(){
     }
     qDebug() << arithmetic_group.checkedId() << " " <<input_group.checkedId()<<" "<<(*FP_in_finished);
     if(arithmetic_group.checkedId()==0 && input_group.checkedId()==0 && (*FP_in_finished)){
-        std::vector<long double> result = floatingBairstow((*this->FP_in).size()-1,*this->FP_in,*max_iterations,mincorr,zerodet);
+        //std::vector<long double> result = floatingBairstow((*this->FP_in).size()-1,*this->FP_in,*max_iterations,mincorr,zerodet);
+        std::vector<std::vector<long double>> result = floatingPointBairstow((*this->FP_in).size()-1,*this->FP_in,*max_iterations,mincorr,zerodet);
         fpoutput * fpoutput_window = new fpoutput(this,result);
         fpoutput_window->exec();
         FP_in->clear();
@@ -105,17 +106,17 @@ void MainWindow::solvePressed(){
         for(int i = 0; i<(int)(*this->FP_in).size();i++){
             FP_to_Int_in.push_back(interval_arithmetic::Interval<long double>((*this->FP_in)[i],(*this->FP_in)[i]));
         }
-        std::vector<interval_arithmetic::Interval<long double>> result = intervalBairstow(FP_to_Int_in.size()-1,FP_to_Int_in,*max_iterations,mincorr,zerodet);
+        std::vector<std::vector<interval_arithmetic::Interval<long double>>> result = intervalABairstow(FP_to_Int_in.size()-1,FP_to_Int_in,*max_iterations,mincorr,zerodet);
         IntervalOutput * intervaloutput_window = new IntervalOutput(this,result);
         intervaloutput_window->exec();
-        FP_in->clear();
-        *FP_in_finished = false;
+        Int_in->clear();
+        *Int_in_finished = false;
     }else if(arithmetic_group.checkedId()==1 && input_group.checkedId()==1 && (*Int_in_finished)){
-        std::vector<interval_arithmetic::Interval<long double>> result = intervalBairstow((*this->Int_in).size()-1,*this->Int_in,*max_iterations,mincorr,zerodet);
+        std::vector<std::vector<interval_arithmetic::Interval<long double>>> result = intervalABairstow((*this->Int_in).size()-1,*this->Int_in,*max_iterations,mincorr,zerodet);
         IntervalOutput * intervaloutput_window = new IntervalOutput(this,result);
         intervaloutput_window->exec();
-        FP_in->clear();
-        *FP_in_finished = false;
+        Int_in->clear();
+        *Int_in_finished = false;
     }else{
         QMessageBox err_dialog(QMessageBox::Critical,"Input Error", "No data for selected arithmetic and input method!");
         err_dialog.exec();

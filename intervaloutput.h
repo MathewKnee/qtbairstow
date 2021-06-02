@@ -10,6 +10,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QMessageBox>
 namespace Ui {
 class IntervalOutput;
 }
@@ -19,9 +20,9 @@ class IntervalOutput : public QDialog
     Q_OBJECT
 
 public:
-    explicit IntervalOutput(QWidget *parent = nullptr,std::vector<interval_arithmetic::Interval<long double>> Int_out = std::vector<interval_arithmetic::Interval<long double>>());
+    explicit IntervalOutput(QWidget *parent = nullptr,std::vector<std::vector<interval_arithmetic::Interval<long double>>> Int_out = std::vector<std::vector<interval_arithmetic::Interval<long double>>>());
     ~IntervalOutput();
-    std::vector<interval_arithmetic::Interval<long double>> Int_out;
+    std::vector<std::vector<interval_arithmetic::Interval<long double>>> Int_out;
 private:
     Ui::IntervalOutput *ui;
 };
